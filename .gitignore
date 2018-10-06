@@ -1,0 +1,6 @@
+#__________________________
+# 1. build & Temporary Files
+
+_test/
+__pycache__/
+*.class

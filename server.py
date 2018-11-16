@@ -1,5 +1,5 @@
 """
-* Flask를 이용해서, 블록체인 API를 제공 
+* Flask를 이용해서, 블록체인 API를 제공
 """
 # import json
 # from textwrap import dedent

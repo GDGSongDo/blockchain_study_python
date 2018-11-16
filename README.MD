@@ -1,13 +1,14 @@
 ---
-language : python, html
-labrary : flask
+Language : **PYTHON**
+Library : **FLASK**
+Data form : **JSON**
 ---
 
 <br><br>
-### 0. INTRO 👋
+### 0. INTRO. 👋
 
 This is not for project, but for the own personal study, the better understanding how blockchain work in simple way.
-Thus, please just refer it as one of many sample materials.
+Thus, please just refer to it as one of many sample materials.
 
 
 
@@ -16,11 +17,11 @@ Thus, please just refer it as one of many sample materials.
 
 Run bash window on the target folder and type in 'python server.py'. Then the first block, index 1, will be automatically generated if there is no stored history file named **chain.json**.
 
-regarding **chain.json** file, there's no chain.json at first. it is generated only if you like to. (I prepare 'write' menu on webpage)
+regarding **chain.json** file, there's no chain.json at the beginning. it is generated only if you like to. (I prepare 'write' menu on webpage)
 
-When '**chain.json**', a written history file, exists, the block history will be restored autonomously. To avoid at first, I changed the file name to '**chain_old.json**', which has the several depth of block history.
+When the '**chain.json**', a written history file, exists, the block history will be restored autonomously. To avoid at first, I changed the file name to '**chain_old.json**', which has the several depth of block history. you can also refer to it how block is constructed.
 
-![bash_run image](/_static/bash_run.png)
+![bash_run image](./_static/img/bash_run.png)
 
 
 
@@ -29,30 +30,32 @@ When '**chain.json**', a written history file, exists, the block history will be
 
 > 'http://localhost:5000' in browser
 
-![main_screen](/_static/chain_help.png)
+![main_screen](./_static/img/chain_help.png)
 
 
 
 
 <br><br>
 ### 3. ABOUT JSON
-In block_class, there're 3 jason files.
+In block_class, there're 3 json files.
 
-> 1. **blcok.json** - the first intention, but to many hashs
-> 2. **chains_old.json** - already described on the top.
-> 3. **genesis.json** - Ethurium genesis block format, just refer to it
+> 1. **blcok.json** - the first intention, but too many hashes
+> 2. **chains_old.json** - already described on the top (ready-made history file.)
+> 3. **genesis.json** - Ethereum genesis block format, just refer to it
 
-This it not exact as it can be, but just alludes coinbase transaction. Because it is compensation for mining, sender is nobody, recipient is randomly generated node ID and amount is set as 100, form of variable for mining reward.
-
+<br>
 <pre>
-    {
-     "sender": "0",
-     "recipient": "17460cdf96bc403ca792bf08a7f87d4d",
-     "amount": 100
-    }
+{
+  "sender": "0",
+  "recipient": "17460cdf96bc403ca792bf08a7f87d4d",
+  "amount": 100
+}
 </pre>
+<br><br>
+This is not exact as it can be, but just alludes coinbase transaction. Because it is compensation for mining, sender is nobody, recipient is randomly generated node ID and amount is set as 100, form of variable for mining reward.
 
-![dir_structure](/_static/structures.png)
+
+![dir_structure](./_static/img/structures.png)
 
 
 

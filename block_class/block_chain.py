@@ -1,18 +1,32 @@
 """
-* 블록체인 구현 (블록생성, 트랜잭션, 작업증명, 마이닝)
-* https://goo.gl/M6XU5v
-"""
+# 블록체인 구현 (블록생성, 트랜잭션, 작업증명, 마이닝)
+# https://goo.gl/M6XU5v
+#
+\n\n"""
+print(__doc__)
+
 import os
-import hashlib
+import sys
 import json
+import hashlib
+
 from time import time
 from uuid import uuid4
 
 
-DIRS = os.path.dirname(__file__).partition("block_chain_study\\")
-ROOT = DIRS[0] + DIRS[1]
-FILE_W_DIR = ROOT + "/block_class/chains.json"
+# '루트'와 '작업'디렉토리 설정 - for 스크립트런
+HOME = "blockchain_study_python"
+DIRS = os.path.dirname(__file__).partition(HOME)
+ROOT = DIRS[0] + DIRS[1] + "/"
+sys.path.append(ROOT)
 
+# 스크립트런 '한글' 표시를 위한 커스텀모듈 실행
+from _static.config import _script_run_utf8
+_script_run_utf8.main()
+
+
+
+FILE_W_DIR = ROOT + "_static/json/chains.json"
 
 class BlockChain(object):
     def __init__(self):
@@ -44,10 +58,10 @@ class BlockChain(object):
 
     def new_transaction(self, sender, recipient, amount, hash=0):
         """ Creates a new transaction to go into the next mined Block
-        : param sender: <str> Sender의 주소
-        : param recipient: <str> Recipient의 주소
-        : param amount: <int> Amount
-        : return: <int> 이 거래를 포함할 블록의 index 값
+        # sender:    <str> Sender 주소(-> name)
+        # recipient: <str> Recipient 주소(-> name)
+        # amount:    <int> Amount
+        # return:    <int> 이 거래를 포함할 블록의 index 값
         """
 
         if hash:
@@ -90,7 +104,7 @@ class BlockChain(object):
         return proof
 
     def write_json(self):
-        with open("./block_class/chains.json", "w") as f:
+        with open("./_static/json/chains.json", "w") as f:
             json.dump(self.chain, f)
         return self.chain
 
@@ -126,6 +140,7 @@ class BlockChain(object):
         return echo
 
 
+
 if __name__ == '__main__':
     from pprint import pprint
 
@@ -142,9 +157,10 @@ if __name__ == '__main__':
             \n{0} \n\n\n".format(blocks_hashed,len(blocks_hashed)))
 
 
-    # 블록과 블록사이에서, 2개의 트랜젝션이 발생한다.
-    bc.new_transaction(sender='Scrouge', recipient='Alice', amount=200, hash=0)
-    bc.new_transaction(sender='Alice', recipient='Bob', amount=150, hash=0)
+    # 블록과 블록사이에서, 2개의 트랜젝션이 발생시킨다.
+    bc.new_transaction(sender='Scrouge', recipient='Alice', amount=200)
+    bc.new_transaction(sender='Alice', recipient='Bob', amount=150)
+
     pprint(bc.current_transactions)
     input("\n... 트랜잭션 2개 발생 ...\n\n\n")
 

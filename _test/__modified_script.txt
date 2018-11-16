@@ -1,0 +1,110 @@
+0:00
+Now we're going to talk about a topic that's at the cutting edge of cryptocurrency research. It's not something that's possible with Bitcoin today but it's something that a modification to Bitcoin or to another Altcoin could support. We've talked about several ways that a new Altcoin could convince stakeholders of Bitcoin, or another Altcoin, to become stakeholders of this new Altcoin. Now two of the options that we have discussed are sort of two sides, two extreme sides of the same concept. In the grandfathering approach, anyone who's a Bitcoin holder can become a holder of some units of this Altcoin. On the other hand, this doesn't involve any risk to the Bitcoin holder at all. If the Altcoin crashes the Bitcoin holder has no one worse off than he was before. Still has all of his Bitcoins.
+
+0:45
+On the other hand the unilateral exchange plan involves burning Bitcoins in order to get units of the Altcoin.
+
+0:52
+This involves a lot of risk taken by the Bitcoin holder. If the Altcoin crashes then there's no value in the Altcoins he earned but he also doesn't have the Bitcoins that he started with since he deleted them in order to gain units of the Altcoin currency.
+
+1:08
+What the unilateral peg list means that one unit of Bitcoin is deleted forever in order to claim one unit of Altcoin. There's no way to get a Bitcoin back. You could trade the Altcoin with someone else who already has a Bitcoin, but the Bitcoin that you had is already been taken out the money supply, irreversibly.
+
+1:25
+On the other hand, instead of burning the Bitcoin, it would be interesting if you could simply deposit the Bitcoin in some place where it was held in escrow of some kind. You'd be able to get one unit of this Altcoin, and then transact with it in different ways. But if eventually you wanted to get rid of your Altcoin and have your original Bitcoin back, you would have that as an option. You could take that Bitcoin that was deposited and retrieve it from its escrow storage.
+
+1:51
+This would be called a bilateral peg.
+
+1:56
+Now, ordinarily one Bitcoin transaction can't refer to events that are happening In another Altcoin, blockchain. But a possible change would be to extend Bitcoin's transaction script language so that you could have all of the rules of an Altcoin, including validating all of the transactions and checking the Altcoin's proofs of work actually encoded in this script of a Bitcoin transaction. You would be able to deposit a Bitcoin in such a way that the only way you can retrieve that Bitcoin is by presenting evidence meaning all the data of a blockchain showing that an Altcoin had actually been deleted. And you could get the Bitcoin back out.
+
+2:35
+Now, to implement this the direct way would actually require very complicated script language and it would require a lot of effort for Bitcoin. Validating nodes in order to check all of the data on every other Altcoin. This would be way too complicated. Now there's an approach towards approving the efficiency of this which involves using SPV proofs. Now if you recall, SPV proofs are a way of allowing, not full validating those, so things like mobile clients, which don't have enough resources to perform validation of the entire block change. Nonetheless gets some evidence that, for example, a transaction has occurred ten blocks ago in the longest block change.
+
+3:17
+A full validating node has to validate every transaction and is supposed to only mine, for example, on the Longest Valid Blockchain where validating requires keeping track of all of the available transactions and checking all the transactions in every block. On the other hand, a mobile client that assumes that the rest of the miners are doing their job, a mobile client can become confident that a transaction has actually occurred. Just by looking at the proofs of work in a bunch of blocks and just checking that a single transaction that they care about is included in the Merkle tree of transactions including in a block that occurred sometime in the past. This is a lot faster because it only involves checking block headers. And it's not a guarantee that this is the longest valid blockchain, but it is evidence to this effect. So the approach to allowing things like bilateral peg is to have a Bitcoin transaction script that's capable of doing SPV proofs about an arbitrary Altcoin.
+
+4:16
+Now, Altcoins often have different parameters like increased block rates. If an Altcoin has a very fast block rate, then this would mean that checking an SPV proof of all of the headers in the block chain, could still be pretty slow. It would take for example n steps to check the proofs of work for n blocks in the Altchain.
+
+4:36
+If instead of just having blocks form a chain though, what if we could store the blocks in a data structure that supported some more efficient kind of SPV proof? We'd like to get something along the lines of taking log in time to check a block chain that has end blocks in this Altcoin.
+
+4:55
+Now one approach to this is based on the idea of a proof of work sample.
+
+4:59
+Suppose that we have four blocks each with difficulty.
+
+5:03
+Four bits. This means that every hash of these four blocks has at least four zero bits on the front of it.
+
+5:11
+Now if all four blocks have at least four zero bits, on average, half of these blocks are actually gonna also have at least a fifth other zero bit in the front.
+
+5:21
+And even one of these four blocks on average should be expected to have a sixth zero bit. So six bits of zero in the front. All right? And so on, depending on the number of blocks.
+
+5:32
+Now the average number of hashes that are needed to find four blocks with four bits of zero in them, is four times two to the four. It would take on average 64 hashes to find these four blocks. This is exactly the same as the average number of hashes you'd need to compute to find just a single block that has just six bits of zero in the front.
+
+5:51
+So an idea is why not just check a single block with the one that has the most bits and use that for your proof of work.
+
+5:58
+Well, even though the average number of hashes needed to compute these blocks is the same, the precision of this estimate is different. Suppose an attacker computes only 32 hashes. This is half the expected number of hashes needed to find four blocks. The probability of finding these four blocks with four bits of zero each is actually only 14%. You have a 14% chance of successfully finding four blocks in half the average amount of time it would take you to find those four blocks.
+
+6:28
+On the other hand, the probability of finding just a single block with six bits,
+
+6:33
+using only half the expected number of hashes it would take, is much higher. It's actually 40%. You can do these calculations using standard probability techniques. The number of blocks you find at a given difficulty level. Given a fixed number of attempts, like 32 hashes, comes from the binomial distribution, all right? The up shot of this is that, the more samples of proof of work you check, the more precise your estimate is, the closer to the average number of steps you can guarantee that it takes.
+
+7:03
+This means that checking just a single proof of work might not be a good idea but it is plausible that you could check a much smaller number of blocks than the whole block chain and still get a confident estimate about the proof of work in the total block chain.
+
+7:16
+Now to have a data structure that supports SPV proofs of this kind, we can build something like a skip list.
+
+7:22
+Suppose that our goal is to support compressed groups of work that involve checking only a quarter of the blocks on average in a large block chain of proofs of work.
+
+7:32
+The way to do this is to have every block contain not just a pointer to the previous block, all of which contain at least four bits of zero.
+
+7:40
+But also the hash of the block in the past that's most recent that has six or more bits of zero in the front.
+
+7:50
+This would only incur an extra insignificant amount of cost to full nodes who are still going to validate every proof of work in every block.
+
+8:00
+But in order to check compressed SPV proof, it's only necessary to check the hashes that point backwards to the high value lucky blocks. You can just follow the red arrows. On average in this case it would take an average of only a quarter of the blocks in proofs of work you would have to check.
+
+8:19
+This basic approach can be generalized to an ordinary skip list where you could choose after the fact what kind of sample you would want to take. And you can skip as far back as quickly as you'd like or get a more dense sample in order to have a more precise estimate.
+
+8:39
+Let me conclude by talking a bit about side chains and the potential this holds. With a suitable modification to Bitcoin or an Altcoin, you would have the potential to have other Altcoins that hold units of other Altcoins in reserve. All right this could be used to smoothen out the risk of launching a new Altcoin. You don't necessarily have to allow Altcoins to be redeemed back to Bitcoin at the same rate. You could for example, be guaranteed that if you spend a Bitcoin to get one unit of Altcoin currency you can either keep that Altcoin, hopefully it rises in value. Or, you might be guaranteed that you can reclaim it if you want for at least, say, half, 1.05 Bitcoins of the value that you initially deposited. This could be a way of having a safeguard against losing all the value in an Altcoin, if the Altcoin crashes shortly after its launch.
+
+9:27
+All right now that this isn't possible today and it would require some changes to Bitcoin in order to support this.
+
+9:32
+For an Altcoin to support this it doesn't preclude any of the other options that we've talked about as well. The Altcoin could either be merge mined with one of the coins that it uses as backing reserve. Or it could avoid merge mining by having a completely different incompatible mining puzzle.
+
+9:48
+So to wrap up this lecture, we've talked about how Bitcoin is an important part of a much larger ecosystem of cryptocurrencies and Altcoins. They compete and interact in various ways, some cooperative, some harmful. There are also a lot of ways that they can technically interact with each other, through techniques such as merge mining, and hash linked transactions that are interdependent between different block chains and it's also possible that in the future there will be more technical ways that transactions in one block chain can explicitly refer to transactions in another block chain.
+
+10:20
+There remains several open questions that we aren't able to decisively answer at this time.
+
+10:26
+Are Altcoins going to consolidate or stay consolidated where there are a few vastly largest Altcoins or one largest Altcoin, or will they diversity further so that there are a plurality of equally popular invaluable Altcoins?
+
+10:40
+Is Bitcoin eventually going to be overtaken by some other Altcoin like one of the ones that's been launched recently?
+
+10:46
+Also is it a good idea to even encourage interaction between Bitcoins? Or should interaction like this be discouraged? Like for example by using incompatible mining puzzles rather than merged mining. We can't answer these questions right now but we've talked about all the concepts you need to understand the importance of this question. In the next lecture, we're going to wrap up this lecture series by talking about the future of Bitcoin. Is Bitcoin going to bring about a new future society where all important infrastructure is decentralized? We're going to talk about several topics, including autonomous agents and smart property.

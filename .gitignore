@@ -1,6 +1,16 @@
-#__________________________
-# 1. build & Temporary Files
+#___________________________________
+#  1. cache, build, db sqlite3 files
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-_test/
+.ipynb_checkpoints/
 __pycache__/
+.idea/
 *.class
+
+
+#___________________________________
+#  2. hidden on purpose
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_flask_app_test.py
+_private*
+_UTC*

@@ -69,4 +69,13 @@ This is not exact as it can be, but just alludes coinbase transaction. Because i
 <br><br>
 ### 5. REFERENCES
 > 1. 블록체인 구현 (블록생성, 트랜잭션, 작업증명, 마이닝) -  https://goo.gl/M6XU5v
-> 2. 파이썬으로 블록체인 개발 ( 아직 Part1밖에 없음) : https://goo.gl/V2owrp
+> 1. 파이썬으로 블록체인 개발 ( 아직 Part1밖에 없음) : https://goo.gl/V2owrp
+
+<br><br>
+### 6. BitCoin Wiki
+> 1. [0_README_FIRST](https://goo.gl/DV8Gpq) :  please read this first.
+> 1. This is originally written by [[iwanhae]](<https://git.iwanhae.ga/wan/introduction_of_bitcoin>), but the server is kind of unstable
+> 1. I quote all of contents from above, please refer to this Wiki for better understanding about bit-coin mechanism.
+
+[![content_wiki](./_static/img/git_wiki_20181209.png)](https://github.com/GDGSongDo/blockchain_study_python/wiki)
+
